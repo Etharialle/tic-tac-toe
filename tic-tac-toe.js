@@ -11,8 +11,7 @@ function Gameboard() {
     const placeMarker = (gameboardCell, marker) => {
         if (!invalidCell(gameboardCell)) {
             console.log("invalid placeMarker");
-            4
-            game.playRound();
+            switchPlayerTurn();
         } else {
             updateCell(gameboardCell, marker);
         }
@@ -32,7 +31,6 @@ function Gameboard() {
     }
     const updateCell =  (gameboardCell, marker) => {
         board[gameboardCell] = marker;
-        console.log(board);
     }
     
     const printBoard = () => {
@@ -62,7 +60,7 @@ function gameController(playerName, playerMarker) {
 
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === 0 ? 1 : 0;
-        console.log(activePlayer);
+        //console.log(activePlayer);
     }
     
     const getActivePlayer = () => activePlayer;
@@ -75,19 +73,21 @@ function gameController(playerName, playerMarker) {
             gameboardCell = parseInt(prompt("enter choice"));
         } else {
             gameboardCell = board.getBoard().findIndex(element => !element);
-            console.log(gameboardCell);
+            //console.log(gameboardCell);
         }
         board.placeMarker(gameboardCell, players[activePlayer].marker);
-        console.log(players[activePlayer].marker);
-        if (checkForWinner(players[activePlayer].marker === "winner found")) {
+        //console.log(players[activePlayer].marker);
+        if (checkForWinner(players[activePlayer].marker)) {
             return "winner found";
         } else {
             switchPlayerTurn();
             printNewRound();
         }
-        return false;
+        //return false;
     }
     const checkForWinner = (winnerMarker) => {
+        console.log("checking for winner");
+        console.log(board.getBoard());
         if ((board.getBoard()[0] === winnerMarker && board.getBoard()[1] === winnerMarker && board.getBoard()[2] === winnerMarker) ||
         (board.getBoard()[3] === winnerMarker && board.getBoard()[4] === winnerMarker && board.getBoard()[5] === winnerMarker) ||
         (board.getBoard()[6] === winnerMarker && board.getBoard()[7] === winnerMarker && board.getBoard()[8] === winnerMarker) ||
@@ -97,9 +97,9 @@ function gameController(playerName, playerMarker) {
         (board.getBoard()[0] === winnerMarker && board.getBoard()[4] === winnerMarker && board.getBoard()[8] === winnerMarker) ||
         (board.getBoard()[2] === winnerMarker && board.getBoard()[4] === winnerMarker && board.getBoard()[6] === winnerMarker)) {
             console.log(winnerMarker + " wins");
-            return "winner found"
+            return true;
         }
-        return false
+        //return false
     }
     return {playRound, getActivePlayer};
 }
@@ -108,13 +108,15 @@ const game = gameController(playerNameTest, playerMarkerTest);
 
 const startGame = document.querySelector("#start");
 startGame.addEventListener("click", function (){
-    if (game.playRound() === "winner found"){
-        console.log("winner winner chicken dinner");
-        return;
-    } else {
-        game.playRound();
+    let i = 0;
+    while (game.playRound() !== "winner found") {
+        i++;
+        console.log("Round " + i + " complete");
+        if (i >= 8) {
+            game.playRound = "winner found";
+        }
     }
-    
+    console.log("winner winner chicken dinner");
 });
 
 // Win Conditions
