@@ -11,10 +11,9 @@ function Gameboard() {
     const placeMarker = (gameboardCell, marker) => {
         if (!invalidCell(gameboardCell)) {
             console.log("invalid placeMarker");
-            switchPlayerTurn();
-        } else {
-            updateCell(gameboardCell, marker);
+            return "invalid";
         }
+        updateCell(gameboardCell, marker);
     }  
     const invalidCell = (gameboardCell) => {
         const availableCells = [];
@@ -69,21 +68,28 @@ function gameController(playerName, playerMarker) {
         board.printBoard();
     }
     const playRound = () => {
+        if (!board.getBoard().findIndex(element => !element)) {
+            return "tie";
+        }
         if (activePlayer == 0) {
             gameboardCell = parseInt(prompt("enter choice"));
         } else {
             gameboardCell = board.getBoard().findIndex(element => !element);
             //console.log(gameboardCell);
         }
-        board.placeMarker(gameboardCell, players[activePlayer].marker);
-        //console.log(players[activePlayer].marker);
-        if (checkForWinner(players[activePlayer].marker)) {
-            return "winner found";
+
+        if (board.placeMarker(gameboardCell, players[activePlayer].marker) === "invalid") {
+            return;
         } else {
-            switchPlayerTurn();
-            printNewRound();
+            //console.log(players[activePlayer].marker);
+            if (checkForWinner(players[activePlayer].marker)) {
+                return "winner found";
+            } else {
+                switchPlayerTurn();
+                printNewRound();
+            }
+            //return false;
         }
-        //return false;
     }
     const checkForWinner = (winnerMarker) => {
         console.log("checking for winner");
@@ -109,14 +115,21 @@ const game = gameController(playerNameTest, playerMarkerTest);
 const startGame = document.querySelector("#start");
 startGame.addEventListener("click", function (){
     let i = 0;
-    while (game.playRound() !== "winner found") {
+    let endGame = function () {
+        while (game.playRound() !== "winner found") {
         i++;
         console.log("Round " + i + " complete");
-        if (i >= 8) {
-            game.playRound = "winner found";
+        if (i >= 15) {
+            endGame = "tie";
+            break;
         }
     }
-    console.log("winner winner chicken dinner");
+    if (endGame === "winner found") {
+        console.log("winner winner chicken dinner");
+    }
+    if (endGame === "tie") {
+        console.log("the game is a tie");
+    }
 });
 
 // Win Conditions
