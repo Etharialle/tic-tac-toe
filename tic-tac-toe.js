@@ -68,7 +68,7 @@ function gameController(playerName, playerMarker) {
         board.printBoard();
     }
     const playRound = () => {
-        if (!board.getBoard().findIndex(element => !element)) {
+        if (!board.getBoard().includes()) {
             return "tie";
         }
         if (activePlayer == 0) {
@@ -115,21 +115,31 @@ const game = gameController(playerNameTest, playerMarkerTest);
 const startGame = document.querySelector("#start");
 startGame.addEventListener("click", function (){
     let i = 0;
+    let resultOfRound;
     let endGame = function () {
-        while (game.playRound() !== "winner found") {
-        i++;
-        console.log("Round " + i + " complete");
-        if (i >= 15) {
-            endGame = "tie";
-            break;
-        }
+        while (resultOfRound !== "winner found" || resultOfRound !== "tie") {
+            resultOfRound = game.playRound();
+            i++;
+            console.log("Round " + i + " complete");
+            if (i >= 15) {
+                resultOfRound = "tie";
+                break;
+            }
+            if (resultOfRound === "winner found") {
+                break;
+            }
+            if (resultOfRound === "tie") {
+                break;
+            }
+
     }
-    if (endGame === "winner found") {
+    if (resultOfRound === "winner found") {
         console.log("winner winner chicken dinner");
     }
-    if (endGame === "tie") {
+    if (resultOfRound === "tie") {
         console.log("the game is a tie");
     }
+    }();
 });
 
 // Win Conditions
