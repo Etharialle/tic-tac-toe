@@ -1,0 +1,88 @@
+@font-face {
+    font-family: "lastwaerk";
+    src: url("./fonts/Lastwaerk\ regular.ttf");
+}
+* {
+    margin: 0;
+    padding: 0;
+    /*outline: #00FF00 solid 1px;*/
+}
+
+body {
+    height: 100svh;
+    background-color: #000000;
+    color: #5E93B3;
+    font-family: "lastwaerk", "Courier New", Courier, monospace;
+    font-size: 1.25rem;
+    display: flex;
+
+}
+.game-setup {
+    background-color: #5E93B3;
+    color: #F2F1DD;
+    flex: .5 0 0;
+    max-width: 25rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.padding {
+    padding: .5rem;
+}
+.marker-select {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+.center {
+    flex: 1 0 0;
+    background-color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gameboard {
+    display: grid;
+    background-color: #F2F1DD;
+    grid-template-columns: 10rem 10rem 10rem;
+    grid-template-rows: 10rem 10rem 10rem;
+    gap: .5rem;
+}
+.gamebox {
+    display: flex;
+    background-color: #5E93B3;
+    color: #F2F1DD;
+    font-size: 10rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.available:hover {
+    outline: #1c70a5 solid .25rem;
+    opacity: 50%;
+    cursor: pointer;
+}
+.unavailable:hover {
+    outline: #FF2A37 solid .25rem;
+    opacity: 50%;
+    cursor: not-allowed;
+}
+input {
+    height: 2.5rem;
+}
+
+#start {
+    width: 10rem;
+    height: 2.5rem;
+}
+
+/*
+colors
+#FF2A37 = computer color
+#5E93B3 = font
+#F2F1DD = player color 
+#000000 = background
+
+
+*/

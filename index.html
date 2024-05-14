@@ -8,7 +8,40 @@
     <title>War Operation Plan Response - Tic-Tac-Toe</title>
 </head>
 <body>
-    <p>Hello Professor Falken, would you like to play a game?</p>
-    <button id="start">start game</button>
+    <div class="game-setup">
+        <h1>War Operation Plan Response (WOPR)</h1>
+        <p>Hello Professor Falken, would you like to play a game?</p>
+        <label for="name">Player Name:</label>
+        <input type="text" name="name" id="name" placeholder="Falken">
+        <fieldset>
+            <legend class="padding">Select Marker:</legend>
+            <div class="padding marker-select">
+                <input type="radio" id="O" name="marker" value="O" checked>
+                <label for="O">O (goes first)</label>
+            </div>
+            <div class="padding marker-select">
+                <input type="radio" id="X" name="marker" value="X">
+                <label for="X">X</label>
+            </div>
+        </fieldset>
+        <button id="start">start game</button>
+    </div>
+    <div class="center">
+        <div class="gameboard">
+            <div class="gamebox" id="box0">0</div>
+            <div class="gamebox" id="box1">1</div>
+            <div class="gamebox" id="box2">2</div>
+            <div class="gamebox" id="box3">3</div>
+            <div class="gamebox" id="box4">4</div>
+            <div class="gamebox" id="box5">5</div>
+            <div class="gamebox" id="box6">6</div>
+            <div class="gamebox" id="box7">7</div>
+            <div class="gamebox" id="box8">8</div>
+
+        </div>
+    </div>
+    
+
+    </div>
 </body>
 </html>

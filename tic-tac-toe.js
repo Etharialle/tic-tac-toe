@@ -30,11 +30,18 @@ function Gameboard() {
     }
     const updateCell =  (gameboardCell, marker) => {
         board[gameboardCell] = marker;
+        const removeButton = document.querySelector("#box" + gameboardCell);
+        const newButton = removeButton.cloneNode(true);
+        newButton.classList.add("unavailable");
+        newButton.classList.remove("available");
+        newButton.textContent = marker;
+        removeButton.parentNode.replaceChild(newButton, removeButton);
     }
     
     const printBoard = () => {
         console.log(board);
     }
+    
     return { getBoard, placeMarker, printBoard };
 }
 
@@ -53,13 +60,12 @@ function gameController(playerName, playerMarker) {
         }
 
         return [{"name": playerName, "marker": playerMarker}, {"name": "computer", "marker": computerMarker}];
-    })(playerNameTest,playerMarkerTest);
+    })(playerName, playerMarker);
 
     console.log(players[activePlayer].name);
 
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === 0 ? 1 : 0;
-        //console.log(activePlayer);
     }
     
     const getActivePlayer = () => activePlayer;
@@ -67,12 +73,15 @@ function gameController(playerName, playerMarker) {
     const printNewRound = () => {
         board.printBoard();
     }
-    const playRound = () => {
+    const playRound = (playerSelection) => {
         if (!board.getBoard().includes()) {
             return "tie";
         }
         if (activePlayer == 0) {
-            gameboardCell = parseInt(prompt("enter choice"));
+            console.log(playerSelection);
+            //console.log(gameboardCell);
+            //gameboardCell = parseInt(prompt("enter choice"));
+            gameboardCell = playerSelection;
         } else {
             gameboardCell = board.getBoard().findIndex(element => !element);
             //console.log(gameboardCell);
@@ -84,6 +93,8 @@ function gameController(playerName, playerMarker) {
             //console.log(players[activePlayer].marker);
             if (checkForWinner(players[activePlayer].marker)) {
                 return "winner found";
+            } else if(!board.getBoard().includes()) {
+                return "tie";
             } else {
                 switchPlayerTurn();
                 printNewRound();
@@ -110,51 +121,86 @@ function gameController(playerName, playerMarker) {
     return {playRound, getActivePlayer};
 }
 
-const game = gameController(playerNameTest, playerMarkerTest);
+
 
 const startGame = document.querySelector("#start");
 startGame.addEventListener("click", function (){
-    let i = 0;
-    let resultOfRound;
-    let endGame = function () {
-        while (resultOfRound !== "winner found" || resultOfRound !== "tie") {
-            resultOfRound = game.playRound();
-            i++;
-            console.log("Round " + i + " complete");
-            if (i >= 15) {
-                resultOfRound = "tie";
-                break;
-            }
-            if (resultOfRound === "winner found") {
-                break;
-            }
-            if (resultOfRound === "tie") {
-                break;
-            }
+    const playerName = document.querySelector("#name").value;
+    const omarker = document.querySelector("#O").checked;
+    let playerMarker;
+    if (omarker) {
+        playerMarker = "O";
+    } else {
+        playerMarker = "X";
+    }
 
+    const game = gameController(playerName,playerMarker);
+    if (playerMarker === "X") {
+        game.playRound();
     }
-    if (resultOfRound === "winner found") {
-        console.log("winner winner chicken dinner");
-    }
-    if (resultOfRound === "tie") {
-        console.log("the game is a tie");
-    }
-    }();
+    const generateButtons = (function () {
+        /*const availableCells = [];
+        for (let i = 0; i <= board.length - 1; i++) {
+            if (!board[i]) {
+                availableCells.push(i);
+            }
+        }
+        */
+        for (let i = 0; i <= 8; i++) {
+            const cellButton = document.querySelector("#box" + i);
+            cellButton.classList.add("available");
+            cellButton.textContent = "";
+            cellButton.addEventListener("click", function (){
+                const playerSelection = i;
+                console.log(playerSelection);
+                let roundResult = game.playRound(playerSelection);
+                if (roundResult === "winner found") {
+                    console.log(playerName + " - winner winner chicken dinner");
+                    for (let j = 0; j <= 8; j++) {
+                        const removeButton = document.querySelector("#box" + j);
+                        const newButton = removeButton.cloneNode(true);
+                        newButton.classList.add("unavailable");
+                        newButton.classList.remove("available");
+                        removeButton.parentNode.replaceChild(newButton, removeButton);
+                    }
+                    return;
+                }
+                if (roundResult === "tie") {
+                    console.log("It's a tie!");
+                    for (let j = 0; j <= 8; j++) {
+                        const removeButton = document.querySelector("#box" + j);
+                        const newButton = removeButton.cloneNode(true);
+                        newButton.classList.add("unavailable");
+                        newButton.classList.remove("available");
+                        removeButton.parentNode.replaceChild(newButton, removeButton);
+                    }
+                    return;
+                }
+                roundResult = game.playRound();
+                if (roundResult === "winner found") {
+                    console.log("Computer - winner winner chicken dinner");
+                    for (let j = 0; j <= 8; j++) {
+                        const removeButton = document.querySelector("#box" + j);
+                        const newButton = removeButton.cloneNode(true);
+                        newButton.classList.add("unavailable");
+                        newButton.classList.remove("available");
+                        removeButton.parentNode.replaceChild(newButton, removeButton);
+                    }
+                    return;
+                }
+                if (roundResult === "tie") {
+                    console.log("It's a tie!");
+                    for (let j = 0; j <= 8; j++) {
+                        const removeButton = document.querySelector("#box" + j);
+                        const newButton = removeButton.cloneNode(true);
+                        newButton.classList.add("unavailable");
+                        newButton.classList.remove("available");
+                        removeButton.parentNode.replaceChild(newButton, removeButton);
+                    }
+                    return;
+                }
+        })
+    };
+
+    })();
 });
-
-// Win Conditions
-/*
-a) 0 1 2
-b) 3 4 5
-c) 6 7 8
-d) 0 3 6
-e) 1 4 7
-f) 2 5 8
-g) 0 4 8
-h) 2 4 6
-if (board[0] === marker &&
-    board[1] === marker &&
-)
-
-
-*/
