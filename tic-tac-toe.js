@@ -149,13 +149,17 @@ startGame.addEventListener("click", function (){
         for (let i = 0; i <= 8; i++) {
             const cellButton = document.querySelector("#box" + i);
             cellButton.classList.add("available");
+            cellButton.classList.remove("unavailable");
             cellButton.textContent = "";
+            const header = document.querySelector("h1");
+            header.innerText = "How about a nice game of\nTic Tac Toe";
             cellButton.addEventListener("click", function (){
                 const playerSelection = i;
                 console.log(playerSelection);
                 let roundResult = game.playRound(playerSelection);
                 if (roundResult === "winner found") {
                     console.log(playerName + " - winner winner chicken dinner");
+                    header.innerText = playerName + " wins.\nWant to play again?";
                     for (let j = 0; j <= 8; j++) {
                         const removeButton = document.querySelector("#box" + j);
                         const newButton = removeButton.cloneNode(true);
@@ -167,6 +171,8 @@ startGame.addEventListener("click", function (){
                 }
                 if (roundResult === "tie") {
                     console.log("It's a tie!");
+                    //const header = document.querySelector("h1");
+                    header.innerText = "Stalemate.\nWant to play again?";
                     for (let j = 0; j <= 8; j++) {
                         const removeButton = document.querySelector("#box" + j);
                         const newButton = removeButton.cloneNode(true);
@@ -179,6 +185,7 @@ startGame.addEventListener("click", function (){
                 roundResult = game.playRound();
                 if (roundResult === "winner found") {
                     console.log("Computer - winner winner chicken dinner");
+                    header.innerText = "WOPR wins.\nWant to play again?";
                     for (let j = 0; j <= 8; j++) {
                         const removeButton = document.querySelector("#box" + j);
                         const newButton = removeButton.cloneNode(true);
@@ -190,6 +197,8 @@ startGame.addEventListener("click", function (){
                 }
                 if (roundResult === "tie") {
                     console.log("It's a tie!");
+                    //const header = document.querySelector("h1");
+                    header.innerText = "Stalemate.\nWant to play again?";
                     for (let j = 0; j <= 8; j++) {
                         const removeButton = document.querySelector("#box" + j);
                         const newButton = removeButton.cloneNode(true);
