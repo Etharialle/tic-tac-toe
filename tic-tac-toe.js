@@ -61,7 +61,7 @@ function gameController(playerName, playerMarker) {
 
         return [{"name": playerName, "marker": playerMarker}, {"name": "computer", "marker": computerMarker}];
     })(playerName, playerMarker);
-
+    
     console.log(players[activePlayer].name);
 
     const switchPlayerTurn = () => {
@@ -118,6 +118,7 @@ function gameController(playerName, playerMarker) {
         }
         //return false
     }
+
     return {playRound, getActivePlayer};
 }
 
@@ -135,9 +136,8 @@ startGame.addEventListener("click", function (){
     }
 
     const game = gameController(playerName,playerMarker);
-    if (playerMarker === "X") {
-        game.playRound();
-    }
+    
+    
     const generateButtons = (function () {
         /*const availableCells = [];
         for (let i = 0; i <= board.length - 1; i++) {
@@ -211,5 +211,10 @@ startGame.addEventListener("click", function (){
         })
     };
 
+    if (playerMarker === "X") {
+        game.playRound();
+        const firstPick = document.querySelector("#box0");
+        firstPick.classList.add("unavailable");
+    }
     })();
 });
