@@ -45,3 +45,11 @@ Gameboard = {[gameboard: [0-8]]}
         }
 
     - printBoard()
+
+## C++ Implementation
+
+1) Use Bazel and gcc
+2) Start with basic terminal version
+   1) Splash screen to choose a marker
+   2) Display board
+   3) Prompt for input
